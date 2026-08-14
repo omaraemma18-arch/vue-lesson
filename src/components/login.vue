@@ -1,30 +1,33 @@
 
 
 <script setup>
+import { reactive } from 'vue';
+import Sidebar from './sidebar.vue';
+
 //JavaScript imports go here if needed, e.g.:
 // import '../js/main.js'
 // import '../js/auth.js'
 // import '../js/login.js'
+const form = reactive({
+  email:"",
+  password:""
+})
+function login(){
+  console.log(form)
+
+  if(form.email==="tech@gmail.com" && form.password==="123456"){
+    //go ahead to log them in
+  }else{
+    //show an error message 
+    alert('wrong credations,please try again')
+  }
+}
+
 </script>
 
 <template>
   <header class="header" id="header">
-    <nav class="nav container">
-      <!-- 1. Fixed image path for public/ or relative asset folder -->
-      <a href="/" class="logo">
-        <!-- <img src="/images/oyera-logo.jpg" alt="Oyera Auto Service Bay Ltd logo" class="logo-icon-img"> -->
-        <span class="logo-text">Oyera <strong>Auto Service Bay</strong></span>
-      </a>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="/#home">Home</a></li>
-        <li><a href="/#services">Services</a></li>
-        <li><a href="/#pricing">Pricing</a></li>
-        <li id="authNavSlot"></li>
-      </ul>
-    </nav>
+  <Sidebar></Sidebar>
   </header>
 
   <main>
@@ -36,16 +39,16 @@
 
         <div class="auth-error" id="loginError"></div>
 
-        <form id="loginForm">
+        <form action="#" id="loginForm">
           <label>
             <span>Email</span>
-            <input type="email" id="loginEmail" required placeholder="you@email.com">
+            <input v-model="form.email" type="email" id="loginEmail" required placeholder="you@email.com">
           </label>
           <label>
             <span>Password</span>
-            <input type="password" id="loginPassword" required placeholder="••••••••">
+            <input v-model="form.password" type="password" id="loginPassword" required placeholder="••••••••">
           </label>
-          <button type="submit" class="btn btn-primary btn-full">Log In</button>
+          <button @click="login" type="submit" class="btn btn-primary btn-full">Log In</button>
         </form>
 
         

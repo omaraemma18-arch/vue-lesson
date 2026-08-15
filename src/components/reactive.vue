@@ -45,6 +45,7 @@ function increment(){
      Toggle to {{ darkMode ? 'light mode' :'dark mode' }}
 </button>
 
+<form class="m-4 bg-primary p-2">
 <div>
   <label>plateNumber:</label>
   <input v-model="job.plateNumber"  type="text" placeholder="UBY 474A">
@@ -64,10 +65,12 @@ function increment(){
       <div>
   <label>technician:</label>
   <input v-model="job.technician" type="text" placeholder="omara emma">
-</div>    
+</div>  
+
 <button class="btn btn-sm btn-primary" type="submit">submit</button>
 <button @click="reset" class="btn btn-sm btn-primary" type="reset">reset</button>
   {{ job }}
+</form>
 </template>
 
 <style scoped>

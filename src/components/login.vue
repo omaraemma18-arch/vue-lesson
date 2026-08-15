@@ -4,18 +4,20 @@
 import { reactive } from 'vue';
 import Sidebar from './sidebar.vue';
 
-//JavaScript imports go here if needed, e.g.:
-// import '../js/main.js'
-// import '../js/auth.js'
-// import '../js/login.js'
+
 const form = reactive({
   email:"",
   password:""
 })
+const emit = defineEmits(['loginSuccess'])
+
 function login(){
   console.log(form)
 
   if(form.email==="tech@gmail.com" && form.password==="123456"){
+    alert('login successful')
+    emit('loginSuccess',{isLoggedIn:"tech@gmail.com",status:true})
+    //emit an event to the parent component to indicate successful login
     //go ahead to log them in
   }else{
     //show an error message 

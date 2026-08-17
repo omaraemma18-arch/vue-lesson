@@ -16,7 +16,14 @@ function login(){
 
   if(form.email==="tech@gmail.com" && form.password==="123456"){
     alert('login successful')
-    emit('loginSuccess',{isLoggedIn:"tech@gmail.com",status:true})
+    localStorage.removeItem('user')
+
+    
+    emit('loginSuccess',{
+      email:form.email,
+      status:true,
+      user:"Technician"
+    })
     //emit an event to the parent component to indicate successful login
     //go ahead to log them in
   }else{

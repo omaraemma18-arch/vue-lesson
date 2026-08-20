@@ -29,8 +29,11 @@ const props = defineProps({
       </small>
     </td>
     <td>{{ job?.labour }}</td>
-    <td><span v-bind:class="{'bg-warning': job?.status === 'In Progress', 'bg-success':job?.status === 'Completed'}" class="badge text-dark">{{ job?.status }}</span></td>
+    <td><span v-bind:class="{'bg-warning': job?.status === 'In Progress', 'bg-success':job?.status === 'Completed'}" class="badge text-dark">{{ job?.status }}</span>
+       <RouterLink class="btn btn-sm btn-success mx-2" :to="`/job/${job?.id}`">see more</RouterLink>
+    </td>
   </tr>
+
 </template>
 
 <style scoped> 

@@ -1,7 +1,7 @@
 <script setup>
 
 import {ref,reactive} from 'vue'
-import ReactiveComponet from './reactive.vue'
+import ReactiveComponet from './reactive.vue/index.js'
 
 const userRole = ref('admin')
 const titleId = ref("1f23")

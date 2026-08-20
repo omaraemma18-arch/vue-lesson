@@ -5,6 +5,7 @@ import login from './components/login.vue'
 import dashboard from './components/dashboard.vue'
 import sidebar from './components/sidebar.vue'
 import { onMounted, ref } from 'vue'
+import { RouterView } from 'vue-router'
 
 const user = ref(null)
 
@@ -22,8 +23,7 @@ function handleLogin(data) {
 </script>
 
 <template>
-<login v-if="!user" @loginSuccess="handleLogin"></login>
-<dashboard :user="user" v-else></dashboard>
+<router-view/>
 </template>
 
 

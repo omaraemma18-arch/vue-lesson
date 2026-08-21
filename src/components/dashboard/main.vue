@@ -2,6 +2,11 @@
 import { ref, onMounted } from 'vue'
 import bayRowdata from './bayRowdata.vue'
 import { RouterLink, RouterView } from 'vue-router'
+import userStore from '@/stores/user.js'
+
+
+const store =userStore()
+
 
 // const props = defineProps({
 //   user: {
@@ -84,7 +89,7 @@ setTimeout(() => {
       <div class="container">
         <span class="section-tag">My Dashboard</span>
         <div class="d-flex me-2">
-          <h1 id="dashGreeting">Welcome,</h1>
+          <h1 id="dashGreeting">Welcome, {{ store.user?.email }}</h1>
         </div>
         <p>Book a service or check the status of your bookings.</p>
       </div>

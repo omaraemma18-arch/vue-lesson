@@ -1,43 +1,44 @@
-
-
 <script setup>
-import { reactive } from 'vue';
-import Sidebar from './sidebar.vue';
+import { reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import userStore from '@/stores/user' // Fixed import
 
+const router = useRouter()
+const store = userStore()
 
 const form = reactive({
-  email:"",
-  password:""
+  userrole: 'technician',
+  email: '',
+  password: ''
 })
-const emit = defineEmits(['loginSuccess'])
 
-function login(){
-  console.log(form)
+const error = ref('')
+const isLoading = ref(false)
 
-  if(form.email==="tech@gmail.com" && form.password==="123456"){
-    alert('login successful')
-    localStorage.removeItem('user')
-
-    
-    emit('loginSuccess',{
-      email:form.email,
-      status:true,
-      user:"Technician"
-    })
-    //emit an event to the parent component to indicate successful login
-    //go ahead to log them in
-  }else{
-    //show an error message 
-    alert('wrong credations,please try again')
+function login() {
+  error.value = ''
+  isLoading.value = true
+  try {
+    if (form.email === 'tech@gmail.com' && form.password === '123456') {
+      store.setUser({
+        email: form.email,
+        role: form.userrole
+      })
+      alert('Login successful')
+      router.push('/')
+    } else {
+      error.value = 'Wrong credentials, please try again.'
+    }
+  } catch (err) {
+    console.error(err)
+  } finally {
+    isLoading.value = false
   }
 }
-
 </script>
 
 <template>
-  <header class="header" id="header">
-  <Sidebar></Sidebar>
-  </header>
+  <header class="header" id="header"></header>
 
   <main>
     <div class="auth-page">
@@ -46,9 +47,20 @@ function login(){
         <h1>Log In</h1>
         <p class="auth-sub">Technicians, admins, and customers all sign in here.</p>
 
-        <div class="auth-error" id="loginError"></div>
+        <!-- Reactive Error Display -->
+        <div v-if="error" class="auth-error visible">
+          {{ error }}
+        </div>
 
-        <form action="#" id="loginForm">
+        <!-- Prevent form reload; submit handles triggering login() -->
+        <form @submit.prevent="login" id="loginForm">
+          <label>
+            <span>Role</span>
+            <select v-model="form.userrole" required>
+              <option value="technician">Technician</option>
+              <option value="Admin">Admin</option>
+            </select>
+          </label>
           <label>
             <span>Email</span>
             <input v-model="form.email" type="email" id="loginEmail" required placeholder="you@email.com">
@@ -57,20 +69,19 @@ function login(){
             <span>Password</span>
             <input v-model="form.password" type="password" id="loginPassword" required placeholder="••••••••">
           </label>
-          <button @click="login" type="submit" class="btn btn-primary btn-full">Log In</button>
+          <!-- Removed extra @click binding -->
+          <button :disabled="isLoading" type="submit" class="btn btn-primary btn-full">
+            {{ isLoading ? 'Logging in...' : 'Log In' }}
+          </button>
         </form>
 
-        
-
-        <p class="auth-switch">Don't have an account? <a href="/register">Sign up as a customer</a></p>
+        <p class="auth-switch">Don't have an account? <router-link to="/register">Sign up as a customer</router-link></p>
       </div>
     </div>
   </main>
-  <!-- Removed commented-out <script> tags to prevent Vite compilation errors -->
 </template>
 
 <style scoped>
-
 .auth-page {
   min-height: 100vh;
   display: flex;
@@ -145,25 +156,6 @@ function login(){
   padding: 0.75rem 1rem;
   border-radius: 8px;
   margin-bottom: 1.25rem;
-  display: none;
-}
-
-.auth-error.visible {
-  display: block;
-}
-
-.auth-demo-box {
-  margin-top: 1.75rem;
-  padding: 1rem 1.1rem;
-  background: var(--color-surface);
-  border-radius: 8px;
-  font-size: 0.82rem;
-  color: var(--color-text-muted);
-  line-height: 1.6;
-}
-
-.auth-demo-box strong {
-  color: var(--color-text);
 }
 
 .auth-switch {
@@ -181,26 +173,4 @@ function login(){
 .auth-switch a:hover {
   color: var(--color-accent-hover);
 }
-
-/* Auth-aware nav slot */
-.nav-user-pill {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-}
-
-.nav-user-pill strong {
-  color: var(--color-text);
-}
-
-.nav-logout-link {
-  color: var(--color-text-muted) !important;
-}
-
-.nav-logout-link:hover {
-  color: #f87171 !important;
-}
-
 </style>

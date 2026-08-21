@@ -1,5 +1,12 @@
 <script setup>
 import { ref, reactive, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import userStore from '@/stores/user'
+
+
+const router = useRouter()
+const store = userStore()
+
 
 const job = reactive({
   plateNumber: '',
@@ -51,6 +58,7 @@ watch(
 
 <template>
   <h1>New Job</h1>
+  You a creating a new job as {{ store.user.email }}
   <div class="dash-panel active" id="bookPanel">
     <div class="booking-form-card">
       <form id="bookingForm" @submit.prevent novalidate>
